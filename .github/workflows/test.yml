@@ -14,16 +14,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the built-in GITHUB_TOKEN
       run: |
-        GRAPHQL_QUERY=$(cat <<EOF
-        mutation {
-          updateProjectV2(input: {
-            title: "test"
-            projectId: "PVT_kwDOBjcuK84AYDky"
-          }) {
-            clientMutationId
-          }
-        }
-        EOF
-        )
+        GRAPHQL_QUERY='{"query": "mutation { updateProjectV2(input: { title: \"test\", projectId: \"PVT_kwDOBjcuK84AYDky\" }) { clientMutationId } }"}'
 
-        curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" -H "Content-Type: application/json" --data "{ \"query\": \"$GRAPHQL_QUERY\" }" https://api.github.com/graphql
+        curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" -H "Content-Type: application/json" --data "$GRAPHQL_QUERY" https://api.github.com/graphql
